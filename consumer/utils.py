@@ -1,6 +1,6 @@
 import json
 
-def convertToFloat(self,instr):
+def convertToFloat(instr):
         if instr.isnumeric():
             return float(instr)
         else :
@@ -8,7 +8,7 @@ def convertToFloat(self,instr):
 
 class Record:
 
-    def __init__(   self,input_record):
+    def __init__(self,input_record):
         self.Id=convertToFloat(input_record[0])
         self.MSSubClass=convertToFloat(input_record[1])
         self.MSZoning=str(input_record[2])
@@ -85,4 +85,82 @@ class Record:
         self.SaleCondition=str(input_record[73])
     
     def getJsonObject(self):
-        return json.dumps(self.__dict__)
+        #return json.dumps(self.__dict__)
+        
+        processed = {   "Id":self.Id,
+                        "MSSubClass":self.MSSubClass,
+                        "MSZoning":self.MSZoning,
+                        "LotArea":self.LotArea,
+                        "Street":self.Street,
+                        "LotShape":self.LotShape,
+                        "LandContour":self.LandContour,
+                        "Utilities":self.Utilities,
+                        "LotConfig":self.LotConfig,
+                        "LandSlope":self.LandSlope,
+                        "Neighborhood":self.Neighborhood,
+                        "Condition1":self.Condition1,
+                        "Condition2":self.Condition2,
+                        "BldgType":self.BldgType,
+                        "HouseStyle":self.HouseStyle,
+                        "OverallQual":self.OverallQual,
+                        "OverallCond":self.OverallCond,
+                        "YearBuilt":self.YearBuilt,
+                        "YearRemodAdd":self.YearRemodAdd,
+                        "RoofStyle":self.RoofStyle,
+                        "RoofMatl":self.RoofMatl,
+                        "Exterior1st":self.Exterior1st,
+                        "Exterior2nd":self.Exterior2nd,
+                        "MasVnrType":self.MasVnrType,
+                        "MasVnrArea":self.MasVnrArea,
+                        "ExterQual":self.ExterQual,
+                        "ExterCond":self.ExterCond,
+                        "Foundation":self.Foundation,
+                        "BsmtQual":self.BsmtQual,
+                        "BsmtCond":self.BsmtCond,
+                        "BsmtExposure":self.BsmtExposure,
+                        "BsmtFinType1":self.BsmtFinType1,
+                        "BsmtFinSF1":self.BsmtFinSF1,
+                        "BsmtFinType2":self.BsmtFinType2,
+                        "BsmtFinSF2":self.BsmtFinSF2,
+                        "BsmtUnfSF":self.BsmtUnfSF,
+                        "TotalBsmtSF":self.TotalBsmtSF,
+                        "Heating":self.Heating,
+                        "HeatingQC":self.HeatingQC,
+                        "CentralAir":self.CentralAir,
+                        "Electrical":self.Electrical,
+                        "fstFlrSF":self.fstFlrSF,
+                        "sndFlrSF":self.sndFlrSF,
+                        "LowQualFinSF":self.LowQualFinSF,
+                        "GrLivArea":self.GrLivArea,
+                        "BsmtFullBath":self.BsmtFullBath,
+                        "BsmtHalfBath":self.BsmtHalfBath,
+                        "FullBath":self.FullBath,
+                        "HalfBath":self.HalfBath,
+                        "BedroomAbvGr":self.BedroomAbvGr,
+                        "KitchenAbvGr":self.KitchenAbvGr,
+                        "KitchenQual":self.KitchenQual,
+                        "TotRmsAbvGrd":self.TotRmsAbvGrd,
+                        "Functional":self.Functional,
+                        "Fireplaces":self.Fireplaces,
+                        "GarageType":self.GarageType,
+                        "GarageYrBlt":self.GarageYrBlt,
+                        "GarageFinish":self.GarageFinish,
+                        "GarageCars":self.GarageCars,
+                        "GarageArea":self.GarageArea,
+                        "GarageQual":self.GarageQual,
+                        "GarageCond":self.GarageCond,
+                        "PavedDrive":self.PavedDrive,
+                        "WoodDeckSF":self.WoodDeckSF,
+                        "OpenPorchSF":self.OpenPorchSF,
+                        "EnclosedPorch":self.EnclosedPorch,
+                        "SsnPorch":self.SsnPorch,
+                        "ScreenPorch":self.ScreenPorch,
+                        "PoolArea":self.PoolArea,
+                        "MiscVal":self.MiscVal,
+                        "MoSold":self.MoSold,
+                        "YrSold":self.YrSold,
+                        "SaleType":self.SaleType,
+                        "SaleCondition":self.SaleCondition
+                }
+
+        return processed

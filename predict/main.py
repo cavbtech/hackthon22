@@ -133,7 +133,9 @@ def ping():
 def predict(query:QueryIn):
     # x = list(query.dict().values())
     # pred = clf.predict([x])[0]
+    print(f" at prediction query={query} ")
     x = query.dict()
+    print(f" at prediction x={x} ")
     ##pred = clf.predict(geek.reshape(x,(1,-1)))
     actdata = pd.DataFrame([x])
     pred = clf.predict(actdata)

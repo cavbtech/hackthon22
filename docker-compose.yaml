@@ -3,16 +3,14 @@ version: '3'
 services:
 
   ## the following are all existing ones for diabetes dataset
-  # predict:
-  #   deploy:
-  #     replicas: 1
-  #   build: predict
-  #   environment:
-  #     - PREDICTOR_ENDPOINT=http://predict:9990
-  #   ports:
-  #     - "9990:9990"
-  #   volumes:
-  #     - ./models:/app/models
+  predict:
+    deploy:
+      replicas: 1
+    build: predict
+    ports:
+      - "9990:9990"
+    volumes:
+      - ./models:/app/models
     ## The following one is for Kafka Producer
   producer:
     deploy:
@@ -22,17 +20,21 @@ services:
       - "8880:8880"
     volumes:
       - ./models:/app/models
-   ## The following one is for Kafka Consumer 
+  #  ## The following one is for Kafka Consumer 
   consumer:
     deploy:
       replicas: 1
     build: consumer
+    environment:
+      - PREDICTOR_ENDPOINT=http://predict:9990
+    depends_on: 
+      - "predict"
     ports:
       - "7770:7770"
     volumes:
       - ./models:/app/models
 
-  ## The following one is for Kafka.  First Zoo keeper needs to be started
+  # ## The following one is for Kafka.  First Zoo keeper needs to be started
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
