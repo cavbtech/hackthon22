@@ -17,6 +17,7 @@ PREDICTOR_ENDPOINT = os.getenv("PREDICTOR_ENDPOINT")
 
 BROKER = 'kafka:9092'                                                                                               
 TOPIC  = 'housing' 
+encoding = 'utf-8'
 
 
 conf = {'bootstrap.servers': BROKER,
@@ -56,7 +57,8 @@ def shutdown():
     
 def msg_process(msg):
     record_key = msg.key()
-    record_value = str(msg.value())
+    record_value = msg.value().decode(encoding)
+    print(f"record_value={record_value}")
     inputObj     = Record(record_value.split(",")).getJsonObject()
     print(f"record_key={record_key} and inputObj={inputObj}")
     #data = json.loads(record_value)
