@@ -4,20 +4,54 @@ import requests
 from typing import List
 from fastapi import FastAPI
 from pydantic import BaseModel
+from confluent_kafka import Consumer
+import sys
 
-PREDICTOR_ENDPOINT = os.getenv("PREDICTR_ENDPOINT")
+PREDICTOR_ENDPOINT = os.getenv("PREDICTOR_ENDPOINT")
+
+BROKER = 'kafka:9092'                                                                                               
+TOPIC  = 'housing' 
 
 
+conf = {'bootstrap.servers': BROKER,
+        'group.id': "foo",
+        'auto.offset.reset': 'smallest'}
+
+consumer = Consumer(conf)
+
+running = True
+topics  = [TOPIC]
+
+def basic_consume_loop(consumer, topics):
+    try:
+        consumer.subscribe(topics)
+
+        while running:
+            msg = consumer.poll(timeout=1.0)
+            if msg is None: 
+                print("no messages yet")
+                continue
+
+            if msg.error():
+                if msg.error().code():
+                    # End of partition event
+                    sys.stderr.write('%% %s [%d] reached end at offset %d\n' %
+                                     (msg.topic(), msg.partition(), msg.offset()))
+                elif msg.error():
+                    raise Exception(msg.error())
+            else:
+                msg_process(msg)
+    finally:
+        # Close down consumer to commit final offsets.
+        consumer.close()
+
+def shutdown():
+    running = False
     
-def process():
-    ks = KafkaUtils.createDirectStream(ssc, ['housedata'], {'metadata.broker.list': 'localhost:29092'})
-    line = ks.map(lambda x: x[1])  
-    response = requests.post(f"{PREDICTR_ENDPOINT}/predict", json=line)
+def msg_process(msg):
     
-    print("before predicting the input")
-    houseInputDF.show() 
-    ## now predict
+    print(f"msg={msg}")
     
-    print(f" predicted house value is= {response}")
-
-process()
+basic_consume_loop(consumer,topics)
+    
+    
